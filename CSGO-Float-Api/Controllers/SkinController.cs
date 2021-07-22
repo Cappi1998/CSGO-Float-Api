@@ -116,26 +116,34 @@ namespace CSGO_Float_Api.Controllers
 
         [HttpGet]
         [Route("GetResponse")]
-        public IActionResult GetResponse(int RequestID)
+        public ApiGetResponse GetResponse(int RequestID)
         {
+            ApiGetResponse response = new ApiGetResponse();
+
             FloatRequest request = _floatRequestRepository.Get(RequestID);
+            if (request == null)
+            {
+                response.Sucess = false;
+                response.ErrorMessage = $"Error - No order with id {RequestID} was found.";
+                return response;
+            }
+            response.ResponseList = new List<SkinResponse>();
+            response.Sucess = true;
 
-            if (request == null) return NotFound($"Error - No order with id {RequestID} was found.");
-
-            List<string> Response = new List<string>();
             request.Skins.ForEach(a =>
             {
                 if (a.Float != 0)
                 {
-                    Response.Add($"{a.param_a}:{a.Float}");
+                    response.ResponseList.Add( new SkinResponse {AssetID= a.param_a, Float=a.Float, Pattern=a.Pattern});
                 }
                 else
                 {
-                    Response.Add($"{a.param_a}:Error - Skin not yet verified.");
+                    string erromsg = $"{a.param_a}:Error - Skin not yet verified.";
+                    response.ResponseList.Add(new SkinResponse { AssetID=a.param_a, errorMessage= erromsg });
                 }
 
             });
-            return Ok(Response);
+            return response;
         }
     }
 }
