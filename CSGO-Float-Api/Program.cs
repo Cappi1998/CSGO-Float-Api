@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace CSGO_Float_Api
 {
@@ -35,10 +36,42 @@ namespace CSGO_Float_Api
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) => 
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    if (Program.UseSSL_Certificate)
+                    {
+                        if (Program.UseCertificateFile)
+                        {
+                            webBuilder.UseKestrel(options =>
+                            {
+                                options.Listen(IPAddress.Any, 80);
+                                options.Listen(IPAddress.Any, 443, listenOptions =>
+                                {
+                                    listenOptions.UseHttps(Program.CertificateFileName, Program.CertificatePassword);
+                                });
+                            });
+                        }
+                        else//Automatic Generate
+                        {
+                            webBuilder.UseKestrel(k =>
+                            {
+                                var appServices = k.ApplicationServices;
+                                k.Listen(
+                                    IPAddress.Any, 443,
+                                    o => o.UseHttps(h =>
+                                    {
+                                        h.UseLettuceEncrypt(appServices);
+                                    }));
+                            });
+                        }
+                    }
+                    else
+                    {
+                        webBuilder.UseUrls("http://0.0.0.0:80");
+                    }
+
                     webBuilder.UseStartup<Startup>();
                 });
 
