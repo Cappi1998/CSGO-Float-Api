@@ -1,0 +1,63 @@
+﻿@model CSGO_Float_Api.Models.SteamAccount
+
+<div class="container rounded bg-white mt-5">
+
+    <form method="post" asp-action="UpdateAccount" asp-controller="Admin">
+
+        <div class="row mt-2">
+            <div class="col-sm-4 mb-2">
+
+                @if (TempData["MSG_Sucess"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Well done!</strong> @Html.Raw(TempData["MSG_Sucess"])
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                }
+
+                @if (TempData["MSG_Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> @Html.Raw(TempData["MSG_Error"])
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <label>Account Username: </label>
+                <div class="form-group mb-2 fw-bold fs-2">
+                    <input hidden asp-for="Username" required>
+                    @Model.Username
+                </div>
+                <label>Account Password</label>
+                <div class="form-group mb-2">
+                    <input asp-for="Password" class="form-control" placeholder="input Password" required>
+                    <span asp-validation-for="Password" style="color:darkred"></span>
+                </div>
+                <label>Account Shared secret</label>
+                <div class="form-group mb-2">
+                    <input asp-for="Shared_secret" class="form-control" placeholder="input Shared secret" required>
+                    <span asp-validation-for="Shared_secret" style="color:darkred"></span>
+                </div>
+
+                <div class=" form-group">
+                    <div class="mt-5">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <a asp-action="AccountList" asp-controller="Admin" class="btn btn-secondary">Back</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
+
+
+<style>
+    body {
+        background: #808080
+    }
+</style>
