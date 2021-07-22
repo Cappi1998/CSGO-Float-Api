@@ -206,8 +206,11 @@ namespace CSGO_Float_Api.Controllers
                     }
                     else
                     {
-                        if (string.IsNullOrWhiteSpace(accountData[0])) return;
-                        if (string.IsNullOrWhiteSpace(accountData[1])) return;
+                        if (string.IsNullOrWhiteSpace(accountData[0]) || string.IsNullOrWhiteSpace(accountData[1]))
+                        {
+                            FailedCount++;
+                            return;
+                        }
 
                         SteamAccount account = new SteamAccount { Username = accountData[0], Password = accountData[1], Shared_secret= accountData[2] };
 
