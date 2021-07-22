@@ -10,6 +10,6 @@ namespace CSGO_Float_Api.Models
         public ulong param_a { get; set; }//AssetID
         public ulong param_d { get; set; }
         public float Float { get; set; }
-        public int Pattern { get; set; }
+        public uint Pattern { get; set; }
     }
 }

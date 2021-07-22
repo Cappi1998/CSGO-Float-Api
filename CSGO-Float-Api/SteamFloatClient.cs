@@ -393,6 +393,7 @@ namespace CSGO_Float_Api
                 var NewSkin = Server.SkinsDatabase[ItemID];
 
                 NewSkin.Float = BitConverter.ToSingle(BitConverter.GetBytes(ReceivedMessage.Body.iteminfo.paintwear), 0);
+                NewSkin.Pattern = ReceivedMessage.Body.iteminfo.paintseed;
 
                 var sucess = Server.SkinsDatabase.TryUpdate(NewSkin.param_a, NewSkin, NewSkin);
 
