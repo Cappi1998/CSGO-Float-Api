@@ -1,5 +1,6 @@
 ﻿using CSGO_Float_Api.Database.Repositories;
 using CSGO_Float_Api.Models;
+using CSGO_Float_Api.Models.Api;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -19,10 +20,17 @@ namespace CSGO_Float_Api.Controllers
 
         [HttpPost]
         [Route("RequestFloat")]
-        public IActionResult RequestFloat(string InspectLink)
+        public ApiRequestResponse RequestFloat(string InspectLink)
         {
+            ApiRequestResponse response = new ApiRequestResponse();
+
             string[] ParamsArray = InspectLink.Split('S', 'A', 'D', 'M');
-            if (ParamsArray.Length != 4) return BadRequest("Inspect link format invalid.");
+            if (ParamsArray.Length != 4) 
+            {
+                response.Sucess = false;
+                response.ErrorMessage = "Inspect link format invalid.";
+                return response;
+            }
 
             Skin skin = CreateSkinModel.Create(InspectLink);
             Skin skinDB = _skinRepository.Get(skin.param_a);
@@ -31,29 +39,49 @@ namespace CSGO_Float_Api.Controllers
 
             if (skinDB != null) floatRequest.Skins.Add(skinDB); else floatRequest.Skins.Add(skin); Server.AddSkinToQueue(skin);
 
-            _floatRequestRepository.Add(floatRequest);
-            return Ok(floatRequest.ID);
+            if (floatRequest.Skins.Count == 0)
+            {
+                response.Sucess = false;
+                response.ErrorMessage = "No inspect link found!";
+                response.FailedCount = 1;
+                return response;
+            }
+            else
+            {
+                _floatRequestRepository.Add(floatRequest);
+                response.Sucess = true;
+                response.SucessCount = 1;
+                response.RequestID = floatRequest.ID;
+                return response;
+            }
         }
 
         [HttpPost]
         [Route("RequestFloats")]
-        public IActionResult RequestFloats(List<string> ListInspectLink)
+        public ApiRequestResponse RequestFloats(LinkLists linkLists)
         {
-            if (ListInspectLink == null || ListInspectLink.Count == 0) return BadRequest("Format invalid.");
+            ApiRequestResponse response = new ApiRequestResponse();
+
+            if (linkLists == null || linkLists.InspectLinks.Count == 0)
+            {
+                response.Sucess = false;
+                response.ErrorMessage = "Invalid Format!";
+                return response;
+            }
 
             int InvalidCount = 0;
             int SucessCount = 0;
 
             FloatRequest floatRequest = new FloatRequest { Skins = new List<Skin>() };
 
-            ListInspectLink.ForEach(a => 
+            linkLists.InspectLinks.ForEach(a =>
             {
                 string[] ParamsArray = a.Split('S', 'A', 'D', 'M');
                 if (ParamsArray.Length != 4)
                 {
                     InvalidCount++;
                     return;
-                } 
+                }
 
                 Skin skin = CreateSkinModel.Create(a);
                 Skin skinDB = _skinRepository.Get(skin.param_a);
@@ -61,8 +89,21 @@ namespace CSGO_Float_Api.Controllers
                 if (skinDB != null) floatRequest.Skins.Add(skinDB); else floatRequest.Skins.Add(skin); Server.AddSkinToQueue(skin);
             });
 
-            _floatRequestRepository.Add(floatRequest);
-            return Ok(floatRequest.ID);
+            if(floatRequest.Skins.Count == 0)
+            {
+                response.Sucess = false;
+                response.ErrorMessage = "White list, no inspect link found!";
+                return response;
+            }
+            else
+            {
+                _floatRequestRepository.Add(floatRequest);
+                response.Sucess = true;
+                response.SucessCount = SucessCount;
+                response.FailedCount = InvalidCount;
+                response.RequestID = floatRequest.ID;
+                return response;
+            }
         }
 
         [HttpGet]
