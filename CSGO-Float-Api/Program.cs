@@ -23,6 +23,7 @@ namespace CSGO_Float_Api
         public static StatsAdminPage statsAdmin = new StatsAdminPage();
         public static void Main(string[] args)
         {
+            Console.Title = "CSGO-Float-Api";
             LoadConfig();
 
             try
