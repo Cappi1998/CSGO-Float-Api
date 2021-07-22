@@ -84,6 +84,14 @@ namespace CSGO_Float_Api.Controllers
                 }
 
                 Skin skin = CreateSkinModel.Create(a);
+
+                if (skin == null)
+                {
+                    InvalidCount++;
+                    return;
+                }
+                else SucessCount++;
+
                 Skin skinDB = _skinRepository.Get(skin.param_a);
 
                 if (skinDB != null) floatRequest.Skins.Add(skinDB); else floatRequest.Skins.Add(skin); Server.AddSkinToQueue(skin);
