@@ -20,7 +20,7 @@ namespace CSGO_Float_Api
         public static string Database_Path = Path.Combine(Directory.GetCurrentDirectory(), "Database.db");
         public static string connectionString = $"Data Source={Database_Path}";
         public static Admin admin = new Admin();
-
+        public static StatsAdminPage statsAdmin = new StatsAdminPage();
         public static void Main(string[] args)
         {
             LoadConfig();

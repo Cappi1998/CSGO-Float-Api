@@ -12,6 +12,7 @@ namespace CSGO_Float_Api.Database.Repositories
         void Delete(int Id);
         void Delete(FloatRequest request);
         FloatRequest Get(int Id);
+        int GetCount();
     }
 
     public class FloatRequestRepository : IFloatRequestRepository
@@ -45,6 +46,12 @@ namespace CSGO_Float_Api.Database.Repositories
         {
             return _context.FloatRequests.Where(a=>a.ID == Id).Include(a => a.Skins).FirstOrDefault();
         }
+
+        public int GetCount()
+        {
+            return _context.FloatRequests.Count();
+        }
+
         public void Update(FloatRequest request)
         {
             _context.Update(request);

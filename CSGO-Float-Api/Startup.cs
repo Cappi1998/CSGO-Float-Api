@@ -56,8 +56,9 @@ namespace CSGO_Float_Api
             services.AddScoped<Session>();
             services.AddScoped<AdminLogin>();
 
-
+            
             //Coravel Service
+            services.AddTransient<UpdateStatsAdminPage>();
             services.AddTransient<StartSteamClients>();
             services.AddTransient<SyncSkinToDatabase>();
             services.AddScheduler();
@@ -91,8 +92,10 @@ namespace CSGO_Float_Api
                     defaults: new { controller = "Home", action = "Index" });
             });
 
+            
             //Coravel - Scheduler
             app.ApplicationServices.UseScheduler(scheduler => {
+                scheduler.Schedule<UpdateStatsAdminPage>().EveryFiveSeconds().PreventOverlapping("UpdateStatsAdminPage");
                 scheduler.Schedule<SyncSkinToDatabase>().EverySecond().PreventOverlapping("SyncSkinToDatabase");
                 scheduler.Schedule<StartSteamClients>().EveryThirtySeconds().PreventOverlapping("StartSteamClients");
             });

@@ -16,6 +16,7 @@ namespace CSGO_Float_Api.Database.Repositories
         SteamAccount Get(string Username);
         List<SteamAccount> GetAllAccounts();
         IPagedList<SteamAccount> GetAllAccounts(int? page);
+        int GetCount();
     }
     public class SteamAccountRepository : ISteamAccountRepository
     {
@@ -86,6 +87,14 @@ namespace CSGO_Float_Api.Database.Repositories
 
                 int NumeroPagina = page ?? 1;
                 return _context.SteamAccounts.ToPagedList<SteamAccount>(NumeroPagina, RegistroPorPagina);
+            }
+        }
+
+        public int GetCount()
+        {
+            using (var _context = _dbContextFactory.Create())
+            {
+              return _context.SteamAccounts.Count();
             }
         }
 

@@ -1,4 +1,4 @@
-﻿
+﻿@model CSGO_Float_Api.Models.StatsAdminPage 
 
 <div class="container rounded bg-white mt-5">
 
@@ -18,5 +18,33 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
+
+
+<div class="row m-3">
+
+    <div class="card text-white bg-secondary m-3" style="max-width: 18rem;">
+        <div class="card-header">Total Accounts in Database:</div>
+        <div class="card-body">
+            <h4 class="card-title">@Model.AccountsOnDB</h4>
+        </div>
+    </div>
+
+    <div class="card text-white bg-primary m-3" style="max-width: 18rem;">
+        <div class="card-header">Total Skins in Database:</div>
+        <div class="card-body">
+            <h4 class="card-title">@Model.SkinsOnDB</h4>
+        </div>
+    </div>
+
+    <div class="card text-white bg-secondary m-3" style="max-width: 18rem;">
+        <div class="card-header">Total Orders in Database:</div>
+        <div class="card-body">
+            <h4 class="card-title">@Model.RequestsOnDB</h4>
+        </div>
+    </div>
+
+</div>
+
+
 
 </div>

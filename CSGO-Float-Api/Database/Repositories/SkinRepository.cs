@@ -13,6 +13,8 @@ namespace CSGO_Float_Api.Database.Repositories
         void Delete(ulong Id);
         void Delete(Skin skin);
         Skin Get(ulong Id);
+
+        int GetCount();
     }
 
     public class SkinRepository : ISkinRepository
@@ -52,6 +54,12 @@ namespace CSGO_Float_Api.Database.Repositories
         {
             return _context.Skins.Where(a=>a.param_a == Id).FirstOrDefault();
         }
+
+        public int GetCount()
+        {
+            return _context.Skins.Count();
+        }
+
         public void Update(Skin skin)
         {
             _context.Update(skin);

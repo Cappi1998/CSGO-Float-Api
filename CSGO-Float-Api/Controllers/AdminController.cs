@@ -27,7 +27,7 @@ namespace CSGO_Float_Api.Controllers
         [AdminAuthorizationAttribute]
         public IActionResult Index()
         {
-            return View();
+            return View(Program.statsAdmin);
         }
         
         [HttpPost]
