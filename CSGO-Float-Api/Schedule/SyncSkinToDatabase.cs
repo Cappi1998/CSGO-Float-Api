@@ -29,6 +29,7 @@ namespace CSGO_Float_Api.Schedule
                 if (skinDB == null) return;
 
                 skinDB.Float = skin.Float;
+                skinDB.Pattern = skin.Pattern;
                 _skinRepository.Update(skinDB);
                 Log.info($"AssedID:{skinDB.param_a} => Float:{skinDB.Float}", ConsoleColor.Green);
             });

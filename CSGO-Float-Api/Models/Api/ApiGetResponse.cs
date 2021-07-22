@@ -13,7 +13,7 @@ namespace CSGO_Float_Api.Models.Api
     {
         public ulong AssetID { get; set; }
         public float Float { get; set; }
-        public int Pattern { get; set; }
+        public uint Pattern { get; set; }
         public string errorMessage { get; set; }
     }
 }

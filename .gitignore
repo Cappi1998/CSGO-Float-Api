@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /CSGO-Float-Api/Database.db
 /CSGO-Float-Api/.config
+/CSGO-Float-Api/Migrations
