@@ -198,6 +198,7 @@ namespace CSGO_Float_Api.Controllers
                 AccountsList.ForEach(acc =>
                 {
                     var accountData = acc.Split(":");
+
                     if (accountData.Length < 3)
                     {
                         FailedCount++;
@@ -205,6 +206,9 @@ namespace CSGO_Float_Api.Controllers
                     }
                     else
                     {
+                        if (string.IsNullOrWhiteSpace(accountData[0])) return;
+                        if (string.IsNullOrWhiteSpace(accountData[1])) return;
+
                         SteamAccount account = new SteamAccount { Username = accountData[0], Password = accountData[1], Shared_secret= accountData[2] };
 
                         var accDB = _steamAccountRepository.Get(account.Username);
