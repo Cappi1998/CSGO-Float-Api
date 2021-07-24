@@ -25,9 +25,9 @@ Accounts with steam guard via Email is not supported.
 Accounts with steam guard disabled are supported by the program just leave the shared_secret field blank.
 
 ---
-Admin Interface
+### Admin Interface
 ![](https://image.prntscr.com/image/M4feP5eFQ3WbaQzq0U9UMg.png) 
-example list (you can't log in to them).
+### Example list (you can't log in to them).
 ![](https://image.prntscr.com/image/1sPrFrQ8T1CbUiH0ZhmIeg.png)
 # DISCLAIMER
 This project is provided on AS-IS basis, without any guarantee at all. Author is not responsible for any harm, direct or indirect, that may be caused by using this project. You use this project at your own risk.
