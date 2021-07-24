@@ -24,7 +24,7 @@ Steam Guard via Email is not supported by the project.
 
 ---
 Admin Interface
-![](https://image.prntscr.com/image/mRvxG8QVRRyuqUGslcvrGg.png) 
+![](https://image.prntscr.com/image/M4feP5eFQ3WbaQzq0U9UMg.png) 
 
 # DISCLAIMER
 This project is provided on AS-IS basis, without any guarantee at all. Author is not responsible for any harm, direct or indirect, that may be caused by using this project. You use this project at your own risk.
