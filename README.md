@@ -8,7 +8,7 @@ CSGO-Float-Api is a free and open source API service that allows you to get the 
 
 # Getting Started
 
-Setup is super easy, you just need to configure the `appsettings.json` file.
+Setup is super easy, you just need to configure `appsettings.json`.
 
 The SSL certificate is created automatically using the [LettuceEncrypt](https://github.com/natemcmaster/LettuceEncrypt) library.
 
