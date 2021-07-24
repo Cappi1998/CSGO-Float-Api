@@ -10,17 +10,16 @@ namespace CSGO_Float_Api
     {
         public static Skin Create(string InspectURL)
         {
-            
-            if (InspectURL.Contains("A"))
+            Skin SkinRequested = new Skin();
+            string[] ParamsArray = InspectURL.Split('S', 'A', 'D', 'M');
+
+            if (ParamsArray.Length != 4)
             {
-                string[] ParamsArray = InspectURL.Split('S', 'A', 'D', 'M');
+                return null;
+            }
 
-                if (ParamsArray.Length != 4)
-                {
-                    return null;
-                }
-
-                Skin SkinRequested = new Skin();
+            if (InspectURL.Contains("S"))
+            {
                 try
                 {
                     SkinRequested.param_s = ulong.Parse(ParamsArray[1]);
@@ -36,9 +35,19 @@ namespace CSGO_Float_Api
             }
             else
             {
-                //TODO -- ???
+                try
+                {
+                    SkinRequested.param_m = ulong.Parse(ParamsArray[1]);
+                    SkinRequested.param_a = ulong.Parse(ParamsArray[2]);//AssetID
+                    SkinRequested.param_d = ulong.Parse(ParamsArray[3]);
+                    SkinRequested.param_s = 0;
+                    return SkinRequested;
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
             }
-            return null;
         }
     }
 }
