@@ -16,7 +16,7 @@ After you put the server online, you just need to access the admin panel through
 
 ## Steam Accounts Observations
 
-ATTENTION: Remembering that accounts must have CSGO to be able to use the gamecordenator. (it doesn't have to be csgo prime, it can be free)
+ATTENTION: Remembering that accounts must have [CSGO](https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/) to be able to use the gamecordenator. (it doesn't have to be csgo prime, it can be free)
 
 Steam Accounts with Mobile Guard Authenticator you need to inform `shared_secret` for the authentication codes be generated.
 
