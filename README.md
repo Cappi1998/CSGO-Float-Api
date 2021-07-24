@@ -14,7 +14,13 @@ The SSL certificate is created automatically using the [LettuceEncrypt](https://
 
 After you put the server online, you just need to access the admin panel through the browser and add your steam accounts easily and quickly.
 
-ATTENTION: remembering that accounts must have CSGO to be able to use the gamecordenator. (it doesn't have to be csgo prime, it can be free)
+## Steam Accounts Observations
+
+ATTENTION: Remembering that accounts must have CSGO to be able to use the gamecordenator. (it doesn't have to be csgo prime, it can be free)
+
+Steam Accounts with Mobile Guard Authenticator you need to inform `shared_secret` for the authentication codes be generated.
+
+Steam Guard via Email is not supported by the project.
 
 ---
 Admin Interface
