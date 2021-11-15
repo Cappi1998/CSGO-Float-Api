@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using CSGO_Float_Api.Utils;
 using CSGO_Float_Api.Models;
 using CSGO_Float_Api.Database.Repositories;
+using CSGO_Float_Api.Schedule;
 
 namespace CSGO_Float_Api
 {
@@ -300,6 +301,11 @@ namespace CSGO_Float_Api
             UsedThread.Start();
 
             Log.info($"<{this.UserInfo.Username}> Ready to receive requests");
+
+            if (CheckAccountStatus.TryStartCount.ContainsKey(this.UserInfo.Username))
+            {
+                CheckAccountStatus.TryStartCount[this.UserInfo.Username] = 0;
+            }
         }
 
         public void SetNotReadyToReceiveRequests()
