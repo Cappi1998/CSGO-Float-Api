@@ -17,14 +17,22 @@ namespace CSGO_Float_Api
         public static string CertificatePassword = "";
 
         internal static readonly string ProcessFileName = Process.GetCurrentProcess().MainModule?.FileName ?? throw new InvalidOperationException(nameof(ProcessFileName));
-        public static string Database_Path = Path.Combine(Directory.GetCurrentDirectory(), "Database.db");
+        public static string Base_Path = Path.Combine(Directory.GetCurrentDirectory());
+        
+        public static string LogDiretory = Path.Combine(Base_Path, "Logs/");
+        public static string LogFile_Path = Path.Combine(LogDiretory, "Log.txt");
+        public static string ErrorLogFile_Path = Path.Combine(LogDiretory, "Error.txt");
+
+        public static string Database_Path = Path.Combine(Base_Path, "Database.db");
         public static string connectionString = $"Data Source={Database_Path}";
+
         public static Admin admin = new Admin();
         public static StatsAdminPage statsAdmin = new StatsAdminPage();
         public static void Main(string[] args)
         {
             Console.Title = "CSGO-Float-Api";
             LoadConfig();
+            Directory.CreateDirectory(LogDiretory);
 
             try
             {

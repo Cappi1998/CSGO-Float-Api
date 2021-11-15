@@ -1,7 +1,6 @@
 ﻿using CSGO_Float_Api.Authorization;
 using CSGO_Float_Api.Database.Repositories;
 using CSGO_Float_Api.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SteamAuth;
 using System;
@@ -14,13 +13,11 @@ namespace CSGO_Float_Api.Controllers
     {
         private readonly AdminLogin _adminLogin;
         private readonly ISteamAccountRepository _steamAccountRepository;
-        private IApplicationLifetime _applicationLifetime { get; set; }
 
-        public AdminController(AdminLogin adminLogin, ISteamAccountRepository steamAccountRepository, IApplicationLifetime applicationLifetime)
+        public AdminController(AdminLogin adminLogin, ISteamAccountRepository steamAccountRepository)
         {
             _adminLogin = adminLogin;
             _steamAccountRepository = steamAccountRepository;
-            _applicationLifetime = applicationLifetime;
         }
 
         [HttpGet]
@@ -38,7 +35,7 @@ namespace CSGO_Float_Api.Controllers
         {
             TempData["MSG_Sucess"] = "Application restarted successfully.";
             System.Diagnostics.Process.Start(Program.ProcessFileName);
-            _applicationLifetime.StopApplication();
+            System.Environment.Exit(0);
             return RedirectToAction(nameof(Login));
         }
 

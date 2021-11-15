@@ -1,76 +1,62 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace CSGO_Float_Api.Utils
 {
-    public class Log
+    class Log
     {
-        private static readonly object locker = new object();
-        public static string Database_Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "Database\\");
-        public static void info(string msg, ConsoleColor color = ConsoleColor.Blue)
+        public static void error(string msg, Exception e = null)
         {
-            lock (locker)
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            msg = $"{DateTime.Now} <{NameOfCallingClass()}> {msg}";
+            if (e != null)
             {
-                Console.ForegroundColor = color;
-                msg = DateTime.Now + " - " + msg;
-                Console.WriteLine(msg);
-                Console.ResetColor();
-
-                StreamWriter sw;
-                sw = File.AppendText(Database_Path + "log.txt");
-                sw.WriteLine(msg);
-                sw.Close();
-                sw.Dispose();
+                msg = $"\n{msg} - Exception_MSG:{e.Message}\n Exception_StackTrace:{e.StackTrace}";
+                File.AppendAllText(Program.ErrorLogFile_Path, msg + "\n");
             }
-        }
-
-        public static void error(string format, params object[] args)
-        {
-            var msg = string.Format(format, args);
-            error(msg);
-        }
-
-        public static void error(string msg, Exception e)
-        {
-            lock (locker)
+            else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                msg = DateTime.Now + " - " + msg + ". " + e.Message;
-                Console.WriteLine(msg);
-                Console.ResetColor();
-
-                StreamWriter sw;
-                sw = File.AppendText(Database_Path + "error.txt");
-                sw.WriteLine(msg);
-                sw.Close();
-                sw.Dispose();
-
-                StreamWriter sw1;
-                sw1 = File.AppendText(Database_Path + "error.txt");
-                sw1.WriteLine(msg + "\n" + e.StackTrace);
-                sw1.Close();
-                sw1.Dispose();
+                File.AppendAllText(Program.LogFile_Path, msg + "\n");
             }
+
+            Console.WriteLine(msg);
+            Console.ResetColor();
         }
 
-        public static void error(string msg)
+        public static void info(string msg, ConsoleColor color = ConsoleColor.DarkCyan)
         {
-            lock (locker)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                msg = DateTime.Now + " - " + msg;
-                Console.WriteLine(msg);
-                Console.ResetColor();
+            Console.ForegroundColor = color;
 
-                StreamWriter sw;
-                sw = File.AppendText(Database_Path + "error.txt");
-                sw.WriteLine(msg);
-                sw.Close();
-                sw.Dispose();
-            }
+            msg = $"{DateTime.Now} <{NameOfCallingClass()}> {msg}";
+
+            Console.WriteLine(msg);
+            Console.ResetColor();
+
+            File.AppendAllText(Program.LogFile_Path, msg + "\n");
         }
+        public static string NameOfCallingClass()
+        {
+            string fullName;
+            Type declaringType;
+            int skipFrames = 2;
+            do
+            {
+                MethodBase method = new StackFrame(skipFrames, false).GetMethod();
+                declaringType = method.DeclaringType;
+                if (declaringType == null)
+                {
+                    return method.Name;
+                }
+                skipFrames++;
+                fullName = declaringType.Name;
+            }
+            while (declaringType.Module.Name.Equals("mscorlib.dll", StringComparison.OrdinalIgnoreCase));
 
+            return fullName;
+        }
     }
-
 
 }
